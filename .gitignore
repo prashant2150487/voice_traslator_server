@@ -1,0 +1,73 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+wheels/
+pip-wheel-metadata/
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+
+# Type checking and linting
+.mypy_cache/
+.pytype/
+.ruff_cache/
+
+# Logs
+*.log
+logs/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# FastAPI / ASGI temporary files
+*.pid
+
+# Database files (SQLite)
+*.db
+*.sqlite3
+
+# Alembic (keep migration files tracked)
+# Do not ignore alembic/ or alembic.ini if used
+
+# Local development and temporary files
+tmp/
+temp/
+.cache/
+
+# Optional: Docker overrides containing local secrets
+docker-compose.override.yml
