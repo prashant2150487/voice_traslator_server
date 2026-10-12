@@ -1,11 +1,12 @@
 import uuid
 from fastapi import APIRouter, Depends
 from app.dependencies.auth import require_permission
-from app.schemas.auth import UserOut
+from app.schemas.auth import UserOut 
 from app.models.user import User
-from app.models.role import UserRoleUpdate
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.controllers.role_controller import RoleController
+from app.schemas.roles import UserRoleUpdate
+from app.dependencies.db import get_db
 
 
 
