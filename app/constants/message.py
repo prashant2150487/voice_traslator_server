@@ -8,6 +8,9 @@ class AuthMessages:
     ACCOUNT_DISABLED = "Account is disabled"
     INVALID_TENANT = "Invalid tenant"
     INVALID_TOKEN = "Invalid or expired token"
+    NOT_AUTHENTICATED = "Authentication required"
+    TOKEN_EXPIRED = "Access token expired"
+    TENANT_SUSPENDED = "This company account is not accepting new users"
 
 class RoleMessages:
     NOT_FOUND = "Role not found"

@@ -13,6 +13,8 @@ from app.schemas.auth import RegisterUserRequest, TokenResponse , LoginRequest ,
 from app.services.user_service import UserService
 from app.core.security import create_access_token, decode_access_token, verify_password
 from starlette.concurrency import run_in_threadpool
+from app.core.exceptions import AppException
+from app.constants.errors import ErrorCode
 
 def _token_response(user) -> TokenResponse:
     expires_at = datetime.now(timezone.utc) + timedelta(
@@ -67,13 +69,13 @@ class AuthController:
     @staticmethod
     async def login(db: AsyncSession , data: LoginRequest)-> TokenResponse:
         user = await UserService.get_by_email(db, data.email)
-        invalid = HTTPException(status.HTTP_401_UNAUTHORIZED, AuthMessages.INVALID_CREDENTIALS)
+        invalid = AppException(ErrorCode.AUTH_INVALID_CREDENTIALS, AuthMessages.INVALID_CREDENTIALS)
 
         if not user or not user.password_hash:
             raise invalid
         if not await run_in_threadpool(verify_password, data.password, user.password_hash):
             raise invalid
         if not user.is_active:
-            raise HTTPException(status.HTTP_403_FORBIDDEN, AuthMessages.ACCOUNT_DISABLED)
+            raise AppException(ErrorCode.ACCOUNT_DISABLED, AuthMessages.ACCOUNT_DISABLED)
 
         return _token_response(user)

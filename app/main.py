@@ -1,12 +1,15 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 from sqlalchemy import text
+# from app.bootstrap import run_bootstrap
 from sqlalchemy.exc import SQLAlchemyError
 from app.core.config import settings
 from app.core.database import engine
 from app.middleware.request_logger import RequestLoggerMiddleware
 from app.routes import api_router
+from app.core.exceptions import register_exception_handlers
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -21,6 +24,7 @@ async def lifespan(app: FastAPI):
     await engine.dispose()
 
 app = FastAPI(title=settings.APP_NAME, lifespan=lifespan)
+register_exception_handlers(app)
 
 app.add_middleware(RequestLoggerMiddleware)
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
