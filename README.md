@@ -87,5 +87,8 @@ Do not run `alembic init` again; this project already has an Alembic environment
 docker compose up -d db
 alembic upgrade head
 
+
+```
 .\venv\Scripts\Activate.ps1
 uvicorn app.main:app --reload
+```

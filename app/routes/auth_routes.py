@@ -6,7 +6,7 @@ from app.controllers.auth_controller import AuthController
 from app.dependencies.auth import get_current_user
 from app.dependencies.db import get_db
 from app.schemas.auth import RegisterUserRequest, TokenResponse , LoginRequest , UserOut
-
+from app.schemas.response import ok , Envelope
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
@@ -18,8 +18,8 @@ async def register_user(data: RegisterUserRequest, db: AsyncSession = Depends(ge
 async def login(dataLogin: LoginRequest, db: AsyncSession = Depends(get_db)):
     return await AuthController.login(db, dataLogin)
 
-@router.get("/getme",response_model= UserOut, status_code=status.HTTP_200_OK)
+@router.get("/getme", response_model=Envelope[UserOut], status_code=status.HTTP_200_OK)
 async def me(user: User = Depends(get_current_user)):
-    return user
+    return ok(UserOut.model_validate(user))
 
 

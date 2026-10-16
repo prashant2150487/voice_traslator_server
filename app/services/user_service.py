@@ -1,3 +1,4 @@
+import uuid
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.user import User
@@ -8,7 +9,7 @@ class UserService:
 
 
     @staticmethod
-    async def get_by_id(db: AsyncSession, user_id: int) -> User | None:
+    async def get_by_id(db: AsyncSession, user_id: uuid.UUID) -> User | None:
         return await db.get(User, user_id)
 
     @staticmethod
