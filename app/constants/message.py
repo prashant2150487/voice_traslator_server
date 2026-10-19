@@ -7,6 +7,7 @@ class AuthMessages:
     INVALID_CREDENTIALS = "Invalid email or password"
     ACCOUNT_DISABLED = "Account is disabled"
     INVALID_TENANT = "Invalid tenant"
+    TENANT_SLUG_EXISTS = "Tenant slug already registered"
     INVALID_TOKEN = "Invalid or expired token"
     NOT_AUTHENTICATED = "Authentication required"
     TOKEN_EXPIRED = "Access token expired"

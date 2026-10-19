@@ -14,9 +14,9 @@ router = APIRouter(prefix="/auth", tags=["Auth"])
 async def register_user(data: RegisterUserRequest, db: AsyncSession = Depends(get_db)):
     return await AuthController.register_user(db, data)
 
-@router.post("/login", response_model=TokenResponse, status_code=status.HTTP_200_OK)
+@router.post("/login", response_model=Envelope[TokenResponse], status_code=status.HTTP_200_OK)
 async def login(dataLogin: LoginRequest, db: AsyncSession = Depends(get_db)):
-    return await AuthController.login(db, dataLogin)
+    return ok(await AuthController.login(db, dataLogin))
 
 @router.get("/getme", response_model=Envelope[UserOut], status_code=status.HTTP_200_OK)
 async def me(user: User = Depends(get_current_user)):

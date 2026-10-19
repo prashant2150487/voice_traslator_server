@@ -25,8 +25,7 @@ class UserService:
     async def create(db: AsyncSession, **fields) -> User:
         user = User(**fields)
         db.add(user)
-        await db.commit()
-        await db.refresh(user)
+        await db.flush()
         return user
 
 

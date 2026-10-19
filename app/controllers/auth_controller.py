@@ -6,6 +6,7 @@ import jwt
 from fastapi import HTTPException, status
 from pwdlib import PasswordHash
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.exc import IntegrityError
 from app.constants.message import AuthMessages
 from app.core.config import settings
 from app.models.tenant import Tenant
@@ -35,21 +36,35 @@ class AuthController:
         if await UserService.get_by_email(db, data.email):
             raise HTTPException(status.HTTP_409_CONFLICT, AuthMessages.EMAIL_EXISTS)
 
-        tenant = Tenant()
+        tenant = Tenant(name=data.tenant_name, slug=data.tenant_slug)
         db.add(tenant)
-        await db.flush()
+        try:
+            await db.flush()
 
-        user = await UserService.create(
-            db,
-            tenant_id=tenant.id,
-            email=data.email,
-            password_hash=AuthController.password_hash.hash(data.password),
-            first_name=data.first_name,
-            last_name=data.last_name,
-            role="user",
-            is_guest=False,
-            is_active=True,
-        )
+            user = await UserService.create(
+                db,
+                tenant_id=tenant.id,
+                email=data.email,
+                password_hash=AuthController.password_hash.hash(data.password),
+                first_name=data.first_name,
+                last_name=data.last_name,
+                role="user",
+                is_guest=False,
+                is_active=True,
+            )
+            tenant.owner_user_id = user.id
+            await db.commit()
+        except IntegrityError as exc:
+            await db.rollback()
+            constraint_name = getattr(getattr(exc.orig, "diag", None), "constraint_name", None)
+            if constraint_name == "uq_tenants_slug":
+                raise HTTPException(
+                    status.HTTP_409_CONFLICT,
+                    AuthMessages.TENANT_SLUG_EXISTS,
+                ) from exc
+            raise
+
+        await db.refresh(user)
 
         expires_at = datetime.now(timezone.utc) + timedelta(
             minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES

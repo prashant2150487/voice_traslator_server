@@ -31,11 +31,8 @@ app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], all
 
 app.include_router(api_router)
 
-@app.get("/health")
-async def health():
-    return {"status": "ok"}
 
-@app.get("/api/health")
-@app.get("/api/v1/health")
+
+@app.get("/api/v1/health",tags=['Health'])
 async def api_health():
     return {"status": "ok"}

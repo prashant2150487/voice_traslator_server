@@ -5,30 +5,33 @@ from app.schemas.roles import ( PermissionOut, RoleOut,RolePermissionsUpdate, Ro
 from app.dependencies.auth import require_permission
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.controllers.role_controller import RoleController
+from app.schemas.response import Envelope , ok
 
 
 
 
 
-router = APIRouter(prefix="/roles")
-@router.get("",
-        response_model=list[RoleSummary],
-        dependencies=[Depends(require_permission("roles.view"))]
-    )
+router = APIRouter(prefix="/roles",tags=['Roles'])
+
+@router.get("",response_model=Envelope[list[RoleSummary]],dependencies=[Depends(require_permission("roles.view"))])
 async def list_roles(db: AsyncSession = Depends(get_db)):
-    return await RoleController.list_roles(db)
+    roles = await RoleController.list_roles(db)
+    return ok([RoleSummary.model_validate(role) for role in roles])
 
-@router.get("/permissions", response_model=list[PermissionOut],dependencies=[Depends(require_permission("roles.view"))])
+@router.get("/permissions", response_model=Envelope[list[PermissionOut]],dependencies=[Depends(require_permission("roles.view"))])
 async def list_permissions(db: AsyncSession=Depends(get_db)):
-    return await RoleController.list_permissions(db)
+    permissions = await RoleController.list_permissions(db)
+    return  ok([PermissionOut.model_validate(p) for p in permissions])
 
-@router.get("/{code}",response_model=RoleOut,dependencies=[Depends(require_permission("roles.view"))])
+@router.get("/{code}",response_model=Envelope[RoleOut],dependencies=[Depends(require_permission("roles.view"))])
 async def get_role(code:str,db:AsyncSession=Depends(get_db)):
-    return await RoleController.get_role(db , code)
+    role= await RoleController.get_role(db,code)
+    return ok(RoleOut.model_validate(role))
 
-@router.patch("/{code}", response_model=RoleOut, dependencies=[Depends(require_permission("roles.manage"))])
+@router.patch("/{code}", response_model=Envelope[RoleOut], dependencies=[Depends(require_permission("roles.manage"))])
 async def update_role(code: str, data: RoleUpdate, db: AsyncSession = Depends(get_db)):
-    return await RoleController.update_role(db, code, data)
+    role = await RoleController.update_role(db,code,data)
+    return ok(RoleOut.model_validate(role))
 
 @router.patch(
     "/{code}/permissions",

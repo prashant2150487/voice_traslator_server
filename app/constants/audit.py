@@ -1,0 +1,10 @@
+class AuditActions:
+    SUPER_ADMIN_BOOTSTRAPPED = "super_admin.bootstrapped"
+    TENANT_CREATED = "tenant.created"
+    TENANT_SUSPENDED = "tenant.suspended"
+    TENANT_ACTIVATED = "tenant.activated"
+    PLAN_CREATED = "plan.created"
+    PLAN_CHANGED = "plan.changed"
+    USER_CREATED = "user.created"
+    USER_ROLE_CHANGED = "user.role_changed"
+    SUPPORT_ACCESS = "support.access"

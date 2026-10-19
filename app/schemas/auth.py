@@ -7,6 +7,12 @@ class RegisterUserRequest(BaseModel):
     password: str = Field(min_length=8 , max_length=128)
     first_name: str = Field(min_length=1, max_length=100)
     last_name: str = Field(min_length=1, max_length=100)
+    tenant_name: str = Field(min_length=1, max_length=150)
+    tenant_slug: str = Field(
+        min_length=1,
+        max_length=63,
+        pattern=r"^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$",
+    )
 
     @field_validator("email")
     @classmethod
