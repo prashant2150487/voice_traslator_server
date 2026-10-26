@@ -6,8 +6,6 @@ from app.schemas.user import UserCreate, UserUpdate
 from app.models.tenant import Tenant
 
 class UserService:
-
-
     @staticmethod
     async def get_by_id(db: AsyncSession, user_id: uuid.UUID) -> User | None:
         return await db.get(User, user_id)
@@ -27,6 +25,9 @@ class UserService:
         db.add(user)
         await db.flush()
         return user
+
+
+
 
 
 

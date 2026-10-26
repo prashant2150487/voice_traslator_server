@@ -6,8 +6,10 @@ T = TypeVar("T")
 
 class Envelope(BaseModel, Generic[T]):
     success: bool = True
+    message: str = ""
     data: T
-    meta: dict[str, Any] | None = None
+    pagination: dict[str, Any] | None = None
+
 
 class ErrorBody(BaseModel):
     code: str
@@ -18,9 +20,14 @@ class ErrorEnvelope(BaseModel):
     success: bool = False
     error: ErrorBody
 
-def ok(data: Any, meta: dict[str, Any] | None = None) -> dict[str, Any]:
+def ok(
+    data: Any,
+    pagination: dict[str, Any] | None = None,
+    message: str = "",
+) -> dict[str, Any]:
     return {
         "success": True,
+        "message": message,
         "data": data,
-        "meta": meta
+        "pagination": pagination,
     }
