@@ -48,7 +48,7 @@ class AuthController:
                 password_hash=AuthController.password_hash.hash(data.password),
                 first_name=data.first_name,
                 last_name=data.last_name,
-                role="user",
+                role="admin",
                 is_guest=False,
                 is_active=True,
             )

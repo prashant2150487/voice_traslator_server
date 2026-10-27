@@ -45,3 +45,8 @@ class TokenResponse(BaseModel):
     token_type: str = "bearer"
     expires_at: datetime
     # user: UserOut
+
+
+class TokenEnvelope(BaseModel):
+    success: bool = True
+    data: TokenResponse
