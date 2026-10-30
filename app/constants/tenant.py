@@ -13,3 +13,5 @@ class SubscriptionStatus:
     PAST_DUE = "past_due"
     CANCELLED = "cancelled"
     ALL = (TRIALING, ACTIVE, PAST_DUE, CANCELLED)
+
+RESERVED_SLUGS = {"www", "api", "app", "admin", "super", "static", "assets", "mail", "support", "status", "docs", "ws"}

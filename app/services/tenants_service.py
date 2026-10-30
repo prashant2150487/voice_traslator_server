@@ -52,3 +52,10 @@ class TenantsService:
             .order_by(Subscription.created_at.asc(), Subscription.id.asc())
         )).all()
         return {subscription.tenant_id: (subscription, plan) for subscription, plan in rows}
+
+    @staticmethod
+    async def get(db: AsyncSession, tenant_id: uuid.UUID):
+        tenant = await db.get(Tenant,tenant_id)
+        if not tenant or tenant.deleted_at is not None:
+            return  None
+        return  tenant

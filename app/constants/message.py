@@ -24,3 +24,20 @@ class RoleMessages:
     USER_NOT_FOUND = "User not found"
     CANNOT_CHANGE_OWN_ROLE = "You cannot change your own role"
     CANNOT_CHANGE_THIS_USER = "This user's role cannot be changed"
+
+class TenantMessages:
+    NOT_FOUND = "Tenant not found"
+    SLUG_EXISTS = "Slug is already taken"
+    SLUG_RESERVED = "Slug is reserved"
+    ADMIN_EMAIL_EXISTS = "Admin email is already registered"
+    BAD_TRANSITION = "Tenant cannot move from '{current}' to '{target}'"
+
+class LanguageMessages:
+    EXISTS = "Language code already exists"
+    NOT_FOUND = "Language not found"
+
+class PlanMessages:
+    NOT_FOUND = "Plan not found"
+    CODE_EXISTS = "Plan code already exists"
+    UNKNOWN_LANGUAGES = "Unknown languages in plan limits: {codes}"
+    INACTIVE = "Plan not found or inactive"
