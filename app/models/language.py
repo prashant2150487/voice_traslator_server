@@ -21,7 +21,8 @@ class Language(Base):
         nullable=False,
     )
 
-    translation_support: Mapped[bool] = mapped_column(
+    translation_supported: Mapped[bool] = mapped_column(
+        "translation_support",
         Boolean,
         server_default=false(),
         nullable=False,

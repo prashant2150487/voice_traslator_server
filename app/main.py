@@ -35,4 +35,4 @@ app.include_router(api_router)
 
 @app.get("/api/v1/health",tags=['Health'])
 async def api_health():
-    return {"status": "ok"}
+    return {"success": True, "message": "Heath is fine"}
